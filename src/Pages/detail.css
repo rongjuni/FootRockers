@@ -1,3 +1,12 @@
 .regButton{
     margin-right: 0.5vw;
 }
+
+.aniStart{
+    opacity: 0;
+}
+
+.aniEnd{
+    opacity: 1;
+    transition: opacity 0.5s;
+}

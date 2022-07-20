@@ -110,11 +110,16 @@ function TabContent({ tab }) {
   //   return <div>content 2 story</div>;
   // }
 
-  return [
-    <div>content 0 story</div>,
-    <div>content 1 story</div>,
-    <div>content 2 story</div>,
-  ][tab];
+  return (
+    <div className="aniStart aniEnd">
+      {
+        [
+          <div>content 0 story</div>,
+          <div>content 1 story</div>,
+          <div>content 2 story</div>,
+        ][tab]
+      }
+    </div>
+  );
 }
-
 export default Detail;

@@ -31,13 +31,13 @@ function App() {
             >
               Home
             </Nav.Link>
-            <Nav.Link
+            {/* <Nav.Link
               onClick={() => {
                 navigate("/detail");
               }}
             >
               Detail
-            </Nav.Link>
+            </Nav.Link> */}
             <Nav.Link
               onClick={() => {
                 navigate("/about");
