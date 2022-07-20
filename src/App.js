@@ -4,14 +4,18 @@
 
 import { useState } from "react";
 import { Navbar, Container, Nav } from "react-bootstrap";
+import CompanyMembers from "./Pages/companyMembers.js";
+import CompanyLocation from "./Pages/companyLocation.js";
 import data from "./data.js";
 import Card from "./productCard.js";
 import Detail from "./Pages/detail.js";
 import "./App.css";
 import { Routes, Route, Link, useNavigate, Outlet } from "react-router-dom";
+import axios from "axios";
 
 function App() {
-  let [shoes] = useState(data);
+  let [shoes, setShoes] = useState(data);
+  let [loadingPage, setLoadingPage] = useState(2);
   let navigate = useNavigate();
 
   return (
@@ -34,6 +38,13 @@ function App() {
             >
               Detail
             </Nav.Link>
+            <Nav.Link
+              onClick={() => {
+                navigate("/about");
+              }}
+            >
+              About
+            </Nav.Link>
           </Nav>
         </Container>
       </Navbar>
@@ -55,6 +66,30 @@ function App() {
                     );
                   })}
                 </div>
+
+                {loadingPage < 3 ? (
+                  <button
+                    onClick={() => {
+                      axios
+                        .get(
+                          "https://codingapple1.github.io/shop/data" +
+                            loadingPage +
+                            ".json"
+                        )
+                        .then((result) => {
+                          console.log(result.data);
+                          let copyShoes = [...shoes, ...result.data];
+                          setShoes(copyShoes);
+                          setLoadingPage(loadingPage + 1);
+                        })
+                        .catch((error) => {
+                          console.log("error :", error);
+                        });
+                    }}
+                  >
+                    button
+                  </button>
+                ) : null}
               </div>
             </div>
           }
@@ -62,8 +97,8 @@ function App() {
 
         <Route path="/detail/:id" element={<Detail shoes={shoes} />} />
         <Route path="/about" element={<About />}>
-          <Route path="member" element={<div>member member</div>}></Route>
-          <Route path="location" element={<div>location</div>}></Route>
+          <Route path="member" element={<CompanyMembers />}></Route>
+          <Route path="location" element={<CompanyLocation />}></Route>
         </Route>
         <Route path="*" element={<div>Page Does Not Exist</div>} />
       </Routes>

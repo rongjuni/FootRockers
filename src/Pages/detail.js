@@ -1,8 +1,9 @@
 // npm install styled-components
-import { useEffect, useState } from "react";
+import react, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useParams, useNavigate } from "react-router-dom";
 import "./detail.css";
+import { Nav } from "react-bootstrap";
 
 // let ColorButton = styled.button`
 //   background: ${(props) => props.x};
@@ -20,6 +21,7 @@ const Detail = ({ clickedProduct, shoes }) => {
   let navigate = useNavigate();
   let { id } = useParams();
   let [discountAlert, setDiscountModal] = useState(true);
+  let [tab, setTab] = useState(0);
 
   const detailFound = shoes.find((valueInShoesArray) => {
     return valueInShoesArray.id == id;
@@ -62,10 +64,57 @@ const Detail = ({ clickedProduct, shoes }) => {
           </button>
         </div>
       </div>
-    </div>
+      <Nav variant="tabs" defaultActiveKey="link0">
+        <Nav.Item>
+          <Nav.Link
+            onClick={() => {
+              setTab(0);
+            }}
+            eventKey="link0"
+          >
+            Button0
+          </Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link
+            onClick={() => {
+              setTab(1);
+            }}
+            eventKey="link1"
+          >
+            Button1
+          </Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link
+            onClick={() => {
+              setTab(2);
+            }}
+            eventKey="link2"
+          >
+            Button2
+          </Nav.Link>
+        </Nav.Item>
+      </Nav>
+      <TabContent tab={tab}></TabContent>
+    </div> // ending line
   );
 };
 
-export default Detail;
+function TabContent({ tab }) {
+  // if (tab === 0) {
+  //   return <div>content 0 story</div>;
+  // } else if (tab === 1) {
+  //   return <div>content 1 story</div>;
+  // } else if (tab === 2) {
+  //   return <div>content 2 story</div>;
+  // }
 
-//ae ssem ma lu bi ddo ddang//
+  return [
+    <div>content 0 story</div>,
+    <div>content 1 story</div>,
+    <div>content 2 story</div>,
+  ][tab];
+}
+
+export default Detail;
