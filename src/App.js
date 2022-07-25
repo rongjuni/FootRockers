@@ -2,7 +2,7 @@
 
 // npm install styled-components
 
-import { useState } from "react";
+import { useState, createContext } from "react";
 import { Navbar, Container, Nav } from "react-bootstrap";
 import CompanyMembers from "./Pages/companyMembers.js";
 import CompanyLocation from "./Pages/companyLocation.js";
@@ -12,9 +12,14 @@ import Detail from "./Pages/detail.js";
 import "./App.css";
 import { Routes, Route, Link, useNavigate, Outlet } from "react-router-dom";
 import axios from "axios";
+import Cart from "./Pages/Cart";
+
+//context API //
+export const Context1 = createContext();
 
 function App() {
   let [shoes, setShoes] = useState(data);
+  let [inventory, setInventory] = useState([11, 12, 13]);
   let [loadingPage, setLoadingPage] = useState(2);
   let navigate = useNavigate();
 
@@ -95,11 +100,19 @@ function App() {
           }
         />
 
-        <Route path="/detail/:id" element={<Detail shoes={shoes} />} />
+        <Route
+          path="/detail/:id"
+          element={
+            <Context1.Provider value={{ inventory }}>
+              <Detail shoes={shoes} />
+            </Context1.Provider>
+          }
+        />
         <Route path="/about" element={<About />}>
           <Route path="member" element={<CompanyMembers />}></Route>
           <Route path="location" element={<CompanyLocation />}></Route>
         </Route>
+        <Route path="/cart" element={<Cart />}></Route>
         <Route path="*" element={<div>Page Does Not Exist</div>} />
       </Routes>
     </div> // app div ending line

@@ -1,9 +1,12 @@
 // npm install styled-components
-import react, { useEffect, useState } from "react";
+import react, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { useParams, useNavigate } from "react-router-dom";
 import "./detail.css";
 import { Nav } from "react-bootstrap";
+
+//context API import
+import { Context1 } from "./../App";
 
 // let ColorButton = styled.button`
 //   background: ${(props) => props.x};
@@ -17,6 +20,9 @@ import { Nav } from "react-bootstrap";
 // `;
 
 const Detail = ({ clickedProduct, shoes }) => {
+  let { inventory } = useContext(Context1);
+
+  console.log(inventory);
   let [count, setCount] = useState(0);
   let navigate = useNavigate();
   let { id } = useParams();
@@ -109,12 +115,13 @@ function TabContent({ tab }) {
   // } else if (tab === 2) {
   //   return <div>content 2 story</div>;
   // }
+  let { inventory } = useContext(Context1);
 
   return (
     <div className="aniStart aniEnd">
       {
         [
-          <div>content 0 story</div>,
+          <div>content 1 story</div>,
           <div>content 1 story</div>,
           <div>content 2 story</div>,
         ][tab]
