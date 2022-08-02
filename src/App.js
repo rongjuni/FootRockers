@@ -22,17 +22,18 @@ function App() {
   let [inventory, setInventory] = useState([11, 12, 13]);
   let [loadingPage, setLoadingPage] = useState(2);
   let navigate = useNavigate();
+  let dataInLocalstorage = JSON.parse(localStorage.getItem("watched"));
+  console.log("data in storage", dataInLocalstorage);
   let [liveCart, setLiveCart] = useState(true);
 
-  /////this reads before useEffect so nothing to load resulting an error
-  let dataInLocalstorage = JSON.parse(localStorage.getItem("watched"));
-
-  useEffect(() => {
+  // useEffect(() => {
+  {
     localStorage.getItem("watched")
       ? null
       : localStorage.setItem("watched", JSON.stringify([]));
     console.log("useEffect running");
-  }, []);
+  }
+  // }, []);
 
   useEffect(() => {
     setLiveCart(true);
