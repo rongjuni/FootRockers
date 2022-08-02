@@ -1,25 +1,5 @@
 import { configureStore, createSlice } from "@reduxjs/toolkit";
-
-let user = createSlice({
-  name: "user",
-  initialState: { name: "seo", age: 20 },
-
-  //updating states above
-  //1. state changing function
-  reducers: {
-    changeName(existingState) {
-      //   return { name: "park", age: 20 };
-      existingState.name = "Lee";
-    },
-    incrementNumber(existingState, action) {
-      existingState.age += action.payload;
-    },
-  },
-});
-
-//2. export so can be called
-// all functions are here
-export let { changeName, incrementNumber } = user.actions;
+import user from "./store/userSlice";
 
 let cartInfo = createSlice({
   name: "cartInfo",
@@ -27,7 +7,49 @@ let cartInfo = createSlice({
     { id: 0, name: "White and Black", count: 2 },
     { id: 2, name: "Grey Yordan", count: 1 },
   ],
+  reducers: {
+    increaseCart(state, action) {
+      // console.log(action.payload);
+      const foundItem = state.find((allValue) => {
+        return allValue.id === action.payload;
+      });
+      foundItem.count++;
+      // console.log(foundItem.id);
+    },
+    decreaseCart(state, action) {
+      if (state[action.payload].count > 1) {
+        const foundItem = state.find((allValue) => {
+          return allValue.id === action.payload;
+        });
+        foundItem.count--;
+      }
+    },
+    deletingCart(state, action) {
+      const foundItem = state.findIndex((state) => {
+        return state.id == action.payload;
+      });
+      state.splice(foundItem, 1);
+    },
+    addingMoreInCart(state, action) {
+      const isExisting = state.find((state) => {
+        return state.id == action.payload.id;
+      });
+
+      if (isExisting) {
+        isExisting.count++;
+      } else {
+        state.push({
+          id: action.payload.id,
+          name: action.payload.title,
+          count: 1,
+        });
+      }
+    },
+  },
 });
+
+export let { increaseCart, decreaseCart, addingMoreInCart, deletingCart } =
+  cartInfo.actions;
 
 export default configureStore({
   reducer: {

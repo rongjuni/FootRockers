@@ -1,3 +1,5 @@
+// *eslint-disable //
+
 // npm install styled-components
 import react, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
@@ -5,8 +7,12 @@ import { useParams, useNavigate } from "react-router-dom";
 import "./detail.css";
 import { Nav } from "react-bootstrap";
 
+//redux for 'order now' button
+
 //context API import
 import { Context1 } from "./../App";
+import { useDispatch, useSelector } from "react-redux";
+import { addingMoreInCart } from "../store";
 
 // let ColorButton = styled.button`
 //   background: ${(props) => props.x};
@@ -20,9 +26,11 @@ import { Context1 } from "./../App";
 // `;
 
 const Detail = ({ clickedProduct, shoes }) => {
+  const dispatch = useDispatch();
+
   let { inventory } = useContext(Context1);
 
-  console.log(inventory);
+  // console.log(inventory);
   let [count, setCount] = useState(0);
   let navigate = useNavigate();
   let { id } = useParams();
@@ -32,6 +40,8 @@ const Detail = ({ clickedProduct, shoes }) => {
   const detailFound = shoes.find((valueInShoesArray) => {
     return valueInShoesArray.id == id;
   });
+
+  // console.log("detailFound", detailFound);
 
   useEffect(() => {
     setTimeout(() => {
@@ -59,7 +69,14 @@ const Detail = ({ clickedProduct, shoes }) => {
           <h4 className="pt-5">{detailFound.title}</h4>
           <p>{detailFound.content}</p>
           <p>{detailFound.price}</p>
-          <button className="btn btn-danger regButton">Order Now</button>
+          <button
+            className="btn btn-danger regButton"
+            onClick={() => {
+              dispatch(addingMoreInCart(detailFound));
+            }}
+          >
+            Order Now
+          </button>
           <button
             className="btn btn-danger regButton"
             onClick={() => {
@@ -129,4 +146,5 @@ function TabContent({ tab }) {
     </div>
   );
 }
+
 export default Detail;

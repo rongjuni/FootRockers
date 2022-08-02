@@ -8,10 +8,15 @@ function Card({ shoes, val, ind, setClickedProduct }) {
     <div
       className="col-md-4 "
       onClick={() => {
+        let loadingLocal = JSON.parse(localStorage.getItem("watched"));
+        loadingLocal.push(val.id);
+        localStorage.setItem("watched", JSON.stringify(loadingLocal));
+        console.log(loadingLocal);
         navigate(`/detail/${ind}`);
       }}
     >
       <div className="mouseHoverPointer">
+        {console.log(val)}
         <img
           src={"https://codingapple1.github.io/shop/shoes" + (ind + 1) + ".jpg"}
           width="80%"

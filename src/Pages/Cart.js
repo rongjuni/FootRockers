@@ -1,6 +1,7 @@
 import { Table } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
-import { changeName, incrementNumber } from "../store";
+import { increaseCart, decreaseCart, deletingCart } from "../store";
+import { changeName, incrementNumber } from "../store/userSlice";
 
 function Cart() {
   //redux
@@ -41,12 +42,25 @@ function Cart() {
                 <td>
                   <button
                     onClick={() => {
-                      dispatch(changeName());
+                      dispatch(increaseCart(val.id));
                     }}
                   >
                     ✖️
                   </button>
-                  <button>➖</button>
+                  <button
+                    onClick={() => {
+                      dispatch(decreaseCart(val.id));
+                    }}
+                  >
+                    ➖
+                  </button>
+                  <button
+                    onClick={() => {
+                      dispatch(deletingCart(val.id));
+                    }}
+                  >
+                    ❌
+                  </button>
                 </td>
               </tr>
             );

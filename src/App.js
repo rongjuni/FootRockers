@@ -2,7 +2,7 @@
 
 // npm install styled-components
 
-import { useState, createContext } from "react";
+import { useState, createContext, useEffect } from "react";
 import { Navbar, Container, Nav } from "react-bootstrap";
 import CompanyMembers from "./Pages/companyMembers.js";
 import CompanyLocation from "./Pages/companyLocation.js";
@@ -18,6 +18,11 @@ import Cart from "./Pages/Cart";
 export const Context1 = createContext();
 
 function App() {
+  useEffect(() => {
+    localStorage.setItem("watched", JSON.stringify([]));
+    console.log("useEffect running");
+  }, []);
+
   let [shoes, setShoes] = useState(data);
   let [inventory, setInventory] = useState([11, 12, 13]);
   let [loadingPage, setLoadingPage] = useState(2);
@@ -25,6 +30,8 @@ function App() {
 
   return (
     <div className="App">
+      {JSON.parse(localStorage.getItem("watched"))}
+
       <Navbar bg="dark" variant="dark">
         <Container>
           <Navbar.Brand href="/">FootRocker</Navbar.Brand>
