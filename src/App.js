@@ -3,11 +3,11 @@
 // npm install styled-components
 
 import { useState, createContext, useEffect } from "react";
-import { Navbar, Container, Nav } from "react-bootstrap";
+import { Navbar, Container, Nav, Card } from "react-bootstrap";
 import CompanyMembers from "./Pages/companyMembers.js";
 import CompanyLocation from "./Pages/companyLocation.js";
 import data from "./data.js";
-import Card from "./productCard.js";
+import Cards from "./productCard.js";
 import Detail from "./Pages/detail.js";
 import "./App.css";
 import { Routes, Route, Link, useNavigate, Outlet } from "react-router-dom";
@@ -18,20 +18,28 @@ import Cart from "./Pages/Cart";
 export const Context1 = createContext();
 
 function App() {
-  useEffect(() => {
-    localStorage.setItem("watched", JSON.stringify([]));
-    console.log("useEffect running");
-  }, []);
-
   let [shoes, setShoes] = useState(data);
   let [inventory, setInventory] = useState([11, 12, 13]);
   let [loadingPage, setLoadingPage] = useState(2);
   let navigate = useNavigate();
+  let [liveCart, setLiveCart] = useState(true);
+
+  /////this reads before useEffect so nothing to load resulting an error
+  let dataInLocalstorage = JSON.parse(localStorage.getItem("watched"));
+
+  useEffect(() => {
+    localStorage.getItem("watched")
+      ? null
+      : localStorage.setItem("watched", JSON.stringify([]));
+    console.log("useEffect running");
+  }, []);
+
+  useEffect(() => {
+    setLiveCart(true);
+  }, []);
 
   return (
     <div className="App">
-      {JSON.parse(localStorage.getItem("watched"))}
-
       <Navbar bg="dark" variant="dark">
         <Container>
           <Navbar.Brand href="/">FootRocker</Navbar.Brand>
@@ -67,9 +75,32 @@ function App() {
           </Nav>
         </Container>
       </Navbar>
-      {/* 
-      <Link to="/">Home</Link>
-      <Link to="/detail">Detail</Link> */}
+
+      <div
+        onClick={() => {
+          setLiveCart(!liveCart);
+        }}
+        style={{ backgroundColor: "darkgrey" }}
+      >
+        Recently Viewed Items
+      </div>
+
+      {/* {console.log("data in storage II", dataInLocalstorage)} */}
+      {liveCart == true ? (
+        <Card
+          style={{
+            width: "18rem",
+            position: "fixed",
+            top: "5px",
+            right: "5px",
+            height: "100%",
+          }}
+        >
+          {dataInLocalstorage.map((a, i) => {
+            return <LiveCart a={a} i={i} shoes={shoes} />;
+          })}
+        </Card>
+      ) : null}
 
       <Routes>
         <Route
@@ -81,7 +112,12 @@ function App() {
                 <div className="row">
                   {shoes.map((val, ind) => {
                     return (
-                      <Card shoes={shoes} val={val} ind={ind} key={ind}></Card>
+                      <Cards
+                        shoes={shoes}
+                        val={val}
+                        ind={ind}
+                        key={ind}
+                      ></Cards>
                     );
                   })}
                 </div>
@@ -96,7 +132,7 @@ function App() {
                             ".json"
                         )
                         .then((result) => {
-                          console.log(result.data);
+                          // console.log(result.data);
                           let copyShoes = [...shoes, ...result.data];
                           setShoes(copyShoes);
                           setLoadingPage(loadingPage + 1);
@@ -156,6 +192,25 @@ function About() {
         Location
       </button>
       <Outlet></Outlet>
+    </div>
+  );
+}
+
+function LiveCart({ a, i, shoes }) {
+  const liveCartShoes = shoes.find((val) => {
+    return val.id == parseInt(a);
+  });
+  console.log("liveFound", liveCartShoes);
+  return (
+    <div>
+      <Card.Body>
+        <Card.Title>{liveCartShoes.title}</Card.Title>
+        <Card.Subtitle className="mb-2 text-muted">
+          {liveCartShoes.content}
+        </Card.Subtitle>
+        <Card.Text>{liveCartShoes.price}</Card.Text>
+      </Card.Body>
+      <hr />
     </div>
   );
 }

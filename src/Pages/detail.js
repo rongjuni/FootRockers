@@ -5,7 +5,7 @@ import react, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { useParams, useNavigate } from "react-router-dom";
 import "./detail.css";
-import { Nav } from "react-bootstrap";
+import { Form, Nav } from "react-bootstrap";
 
 //redux for 'order now' button
 
@@ -42,6 +42,16 @@ const Detail = ({ clickedProduct, shoes }) => {
   });
 
   // console.log("detailFound", detailFound);
+  useEffect(() => {
+    let loadingLocal = JSON.parse(localStorage.getItem("watched"));
+    loadingLocal.push(detailFound.id);
+    //removing repeated number
+    loadingLocal = new Set(loadingLocal);
+    loadingLocal = Array.from(loadingLocal);
+
+    localStorage.setItem("watched", JSON.stringify(loadingLocal));
+    // console.log(loadingLocal);
+  }, []);
 
   useEffect(() => {
     setTimeout(() => {
