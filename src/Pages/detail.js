@@ -62,7 +62,12 @@ const Detail = ({ clickedProduct, shoes }) => {
   return (
     <div className="container">
       {discountAlert == true ? (
-        <div className="alert alert-warning">discount</div>
+        <div
+          className="alert alert-warning"
+          style={{ width: "50%", margin: "auto" }}
+        >
+          Discount available only for next 10 days.
+        </div>
       ) : null}
       {/* <ColorButton x="blue">button</ColorButton> */}
       {/* <ColorButton x="yellow">button</ColorButton> */}
@@ -71,7 +76,9 @@ const Detail = ({ clickedProduct, shoes }) => {
         <div className="col-md-6">
           {clickedProduct}
           <img
-            src={`https://codingapple1.github.io/shop/shoes1.jpg`}
+            src={`https://codingapple1.github.io/shop/shoes${
+              parseInt(id) + 1
+            }.jpg`}
             width="100%"
           />
         </div>

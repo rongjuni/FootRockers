@@ -24,19 +24,21 @@ function App() {
   let navigate = useNavigate();
   let dataInLocalstorage = JSON.parse(localStorage.getItem("watched"));
   console.log("data in storage", dataInLocalstorage);
-  let [liveCart, setLiveCart] = useState(true);
+  let [liveCart, setLiveCart] = useState(false);
 
   // useEffect(() => {
   {
     localStorage.getItem("watched")
       ? null
       : localStorage.setItem("watched", JSON.stringify([]));
-    console.log("useEffect running");
+    // console.log("useEffect running");
   }
   // }, []);
 
   useEffect(() => {
-    setLiveCart(true);
+    {
+      dataInLocalstorage.length > 0 ? setLiveCart(true) : null;
+    }
   }, []);
 
   return (
@@ -46,6 +48,7 @@ function App() {
           <Navbar.Brand href="/">FootRocker</Navbar.Brand>
           <Nav className="me-auto">
             <Nav.Link
+              // href="/"
               onClick={() => {
                 navigate("/");
               }}
@@ -73,33 +76,35 @@ function App() {
             >
               Cart
             </Nav.Link>
+            <Nav.Link
+              style={{ position: "fixed", right: "5px" }}
+              onClick={() => {
+                setLiveCart(!liveCart);
+              }}
+            >
+              Recently Viewed
+            </Nav.Link>
           </Nav>
         </Container>
       </Navbar>
 
-      <div
-        onClick={() => {
-          setLiveCart(!liveCart);
-        }}
-        style={{ backgroundColor: "darkgrey" }}
-      >
-        Recently Viewed Items
-      </div>
-
       {/* {console.log("data in storage II", dataInLocalstorage)} */}
+
       {liveCart == true ? (
         <Card
           style={{
             width: "18rem",
             position: "fixed",
-            top: "5px",
+            top: "3rem",
             right: "5px",
-            height: "100%",
+            height: "flex",
           }}
         >
-          {dataInLocalstorage.map((a, i) => {
-            return <LiveCart a={a} i={i} shoes={shoes} />;
-          })}
+          <div>
+            {dataInLocalstorage.map((a, i) => {
+              return <LiveCart a={a} i={i} shoes={shoes} />;
+            })}
+          </div>
         </Card>
       ) : null}
 
@@ -125,6 +130,7 @@ function App() {
 
                 {loadingPage < 3 ? (
                   <button
+                    className="btn btn-danger regButton"
                     onClick={() => {
                       axios
                         .get(
@@ -143,7 +149,7 @@ function App() {
                         });
                     }}
                   >
-                    button
+                    Load More
                   </button>
                 ) : null}
               </div>
@@ -201,8 +207,8 @@ function LiveCart({ a, i, shoes }) {
   const liveCartShoes = shoes.find((val) => {
     return val.id == parseInt(a);
   });
-  console.log("liveFound", liveCartShoes);
-  return (
+  // console.log("liveFound in liveCart function", liveCartShoes);
+  return liveCartShoes ? (
     <div>
       <Card.Body>
         <Card.Title>{liveCartShoes.title}</Card.Title>
@@ -213,5 +219,5 @@ function LiveCart({ a, i, shoes }) {
       </Card.Body>
       <hr />
     </div>
-  );
+  ) : null;
 }
