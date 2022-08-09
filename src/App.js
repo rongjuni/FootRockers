@@ -128,7 +128,7 @@ function App() {
                   })}
                 </div>
 
-                {loadingPage < 3 ? (
+                {loadingPage < 4 ? (
                   <button
                     className="btn btn-danger regButton"
                     onClick={() => {

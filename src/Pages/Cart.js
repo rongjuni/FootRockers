@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import { Table } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { increaseCart, decreaseCart, deletingCart } from "../store";

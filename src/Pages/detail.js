@@ -1,7 +1,7 @@
-// *eslint-disable //
+/* eslint-disable */
 
 // npm install styled-components
-import react, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { useParams, useNavigate } from "react-router-dom";
 import "./detail.css";
@@ -69,18 +69,30 @@ const Detail = ({ clickedProduct, shoes }) => {
           Discount available only for next 10 days.
         </div>
       ) : null}
-      {/* <ColorButton x="blue">button</ColorButton> */}
-      {/* <ColorButton x="yellow">button</ColorButton> */}
-      {/* <NewColorButton x="red">New Button </NewColorButton> */}
+
+      {console.log("console id", typeof parseInt(id))}
+
       <div className="row">
         <div className="col-md-6">
           {clickedProduct}
-          <img
-            src={`https://codingapple1.github.io/shop/shoes${
-              parseInt(id) + 1
-            }.jpg`}
-            width="100%"
-          />
+          {parseInt(id) < 7 ? (
+            <img
+              src={`https://codingapple1.github.io/shop/shoes${
+                parseInt(id) + 1
+              }.jpg`}
+              width="100%"
+              alt="shoes pictures"
+            />
+          ) : (
+            // using exisiting picture due to lack of new pictures
+            <img
+              src={`https://codingapple1.github.io/shop/shoes${
+                parseInt(id) - 6
+              }.jpg`}
+              width="100%"
+              alt="shoes pictures"
+            />
+          )}
         </div>
         <div className="col-md-6">
           <h4 className="pt-5">{detailFound.title}</h4>
