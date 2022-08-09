@@ -92,7 +92,7 @@ const Detail = ({ clickedProduct, shoes }) => {
               dispatch(addingMoreInCart(detailFound));
             }}
           >
-            Order Now
+            Add to Cart
           </button>
           <button
             className="btn btn-danger regButton"

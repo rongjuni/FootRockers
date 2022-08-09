@@ -102,7 +102,7 @@ function App() {
         >
           <div>
             {dataInLocalstorage.map((a, i) => {
-              return <LiveCart a={a} i={i} shoes={shoes} />;
+              return <LiveCart key={i} a={a} i={i} shoes={shoes} />;
             })}
           </div>
         </Card>

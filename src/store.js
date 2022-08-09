@@ -4,8 +4,8 @@ import user from "./store/userSlice";
 let cartInfo = createSlice({
   name: "cartInfo",
   initialState: [
-    { id: 0, name: "White and Black", count: 2 },
-    { id: 2, name: "Grey Yordan", count: 1 },
+    // { id: 0, name: "White and Black", count: 2 },
+    // { id: 2, name: "Grey Yordan", count: 1 },
   ],
   reducers: {
     increaseCart(state, action) {
@@ -16,14 +16,17 @@ let cartInfo = createSlice({
       foundItem.count++;
       // console.log(foundItem.id);
     },
+
     decreaseCart(state, action) {
-      if (state[action.payload].count > 1) {
-        const foundItem = state.find((allValue) => {
-          return allValue.id === action.payload;
-        });
+      const foundItem = state.find((allValue) => {
+        return allValue.id === action.payload;
+      });
+
+      if (foundItem.count > 1) {
         foundItem.count--;
       }
     },
+
     deletingCart(state, action) {
       const foundItem = state.findIndex((state) => {
         return state.id == action.payload;

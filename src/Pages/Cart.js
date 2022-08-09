@@ -9,7 +9,7 @@ function Cart() {
     return state;
   });
   let dispatch = useDispatch();
-  console.log(stateFromStore);
+  // console.log(stateFromStore);
   //redux chaning state
 
   return (
