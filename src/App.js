@@ -2,19 +2,23 @@
 
 // npm install styled-components
 
-import { useState, createContext, useEffect } from "react";
+import { lazy, Suspense, useState, createContext, useEffect } from "react";
+import { Routes, Route, Link, useNavigate, Outlet } from "react-router-dom";
 import { Navbar, Container, Nav, Card } from "react-bootstrap";
 import CompanyMembers from "./Pages/companyMembers.js";
 import CompanyLocation from "./Pages/companyLocation.js";
 import data from "./data.js";
 import Cards from "./productCard.js";
-import Detail from "./Pages/detail.js";
+// import Detail from "./Pages/detail.js";
+// import Cart from "./Pages/Cart";
 import "./App.css";
-import { Routes, Route, Link, useNavigate, Outlet } from "react-router-dom";
 import axios from "axios";
-import Cart from "./Pages/Cart";
+import { useQuery } from "react-query";
 
 //context API //
+
+const Detail = lazy(() => import("./Pages/detail.js"));
+const Cart = lazy(() => import("./Pages/Cart.js"));
 export const Context1 = createContext();
 
 function App() {
@@ -40,6 +44,18 @@ function App() {
       dataInLocalstorage.length > 0 ? setLiveCart(true) : null;
     }
   }, []);
+
+  let nameImport = useQuery("name_import", () => {
+    return axios
+      .get("https://codingapple1.github.io/userdata.json")
+      .then((result) => {
+        console.log("useQuery requested", result.data);
+        return result.data;
+      });
+    // ,
+    // { staleTime: 2000 }
+  });
+  console.log("nameImport", nameImport);
 
   return (
     <div className="App">
@@ -84,10 +100,15 @@ function App() {
             >
               Recently Viewed
             </Nav.Link>
+            <Nav.Link className="ms-auto">
+              {nameImport.isLoading && "loading"}
+              {nameImport.error && "error"}
+              {nameImport.data && `Hi '${nameImport.data.name}'`}
+            </Nav.Link>
           </Nav>
         </Container>
       </Navbar>
-
+      {console.log(nameImport)}
       {/* {console.log("data in storage II", dataInLocalstorage)} */}
 
       {liveCart == true ? (
@@ -108,70 +129,72 @@ function App() {
         </Card>
       ) : null}
 
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <div>
-              <div className="main-bg"></div>
-              <div className="container">
-                <div className="row">
-                  {shoes.map((val, ind) => {
-                    return (
-                      <Cards
-                        shoes={shoes}
-                        val={val}
-                        ind={ind}
-                        key={ind}
-                      ></Cards>
-                    );
-                  })}
+      <Suspense fallback={<div>Loading....</div>}>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <div>
+                <div className="main-bg"></div>
+                <div className="container">
+                  <div className="row">
+                    {shoes.map((val, ind) => {
+                      return (
+                        <Cards
+                          shoes={shoes}
+                          val={val}
+                          ind={ind}
+                          key={ind}
+                        ></Cards>
+                      );
+                    })}
+                  </div>
+
+                  {loadingPage < 4 ? (
+                    <button
+                      className="btn btn-danger regButton"
+                      onClick={() => {
+                        axios
+                          .get(
+                            "https://codingapple1.github.io/shop/data" +
+                              loadingPage +
+                              ".json"
+                          )
+                          .then((result) => {
+                            // console.log(result.data);
+                            let copyShoes = [...shoes, ...result.data];
+                            setShoes(copyShoes);
+                            setLoadingPage(loadingPage + 1);
+                          })
+                          .catch((error) => {
+                            console.log("error :", error);
+                          });
+                      }}
+                    >
+                      Load More
+                    </button>
+                  ) : null}
                 </div>
-
-                {loadingPage < 4 ? (
-                  <button
-                    className="btn btn-danger regButton"
-                    onClick={() => {
-                      axios
-                        .get(
-                          "https://codingapple1.github.io/shop/data" +
-                            loadingPage +
-                            ".json"
-                        )
-                        .then((result) => {
-                          // console.log(result.data);
-                          let copyShoes = [...shoes, ...result.data];
-                          setShoes(copyShoes);
-                          setLoadingPage(loadingPage + 1);
-                        })
-                        .catch((error) => {
-                          console.log("error :", error);
-                        });
-                    }}
-                  >
-                    Load More
-                  </button>
-                ) : null}
               </div>
-            </div>
-          }
-        />
+            }
+          />
 
-        <Route
-          path="/detail/:id"
-          element={
-            <Context1.Provider value={{ inventory }}>
-              <Detail shoes={shoes} />
-            </Context1.Provider>
-          }
-        />
-        <Route path="/about" element={<About />}>
-          <Route path="member" element={<CompanyMembers />}></Route>
-          <Route path="location" element={<CompanyLocation />}></Route>
-        </Route>
-        <Route path="/cart" element={<Cart />}></Route>
-        <Route path="*" element={<div>Page Does Not Exist</div>} />
-      </Routes>
+          <Route
+            path="/detail/:id"
+            element={
+              <Context1.Provider value={{ inventory }}>
+                <Detail shoes={shoes} />
+              </Context1.Provider>
+            }
+          />
+          <Route path="/about" element={<About />}>
+            <Route path="member" element={<CompanyMembers />}></Route>
+            <Route path="location" element={<CompanyLocation />}></Route>
+          </Route>
+          <Route path="/cart" element={<Cart />}></Route>
+          <Route path="*" element={<div>Page Does Not Exist</div>} />
+        </Routes>
+      </Suspense>
     </div> // app div ending line
   );
 }
@@ -210,7 +233,12 @@ function LiveCart({ a, i, shoes }) {
   // console.log("liveFound in liveCart function", liveCartShoes);
   return liveCartShoes ? (
     <div>
-      <Card.Body>
+      <Card.Body
+        style={{ cursor: "pointer" }}
+        onClick={() => {
+          console.log(liveCartShoes);
+        }}
+      >
         <Card.Title>{liveCartShoes.title}</Card.Title>
         <Card.Subtitle className="mb-2 text-muted">
           {liveCartShoes.content}

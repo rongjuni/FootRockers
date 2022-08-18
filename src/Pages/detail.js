@@ -66,7 +66,7 @@ const Detail = ({ clickedProduct, shoes }) => {
           className="alert alert-warning"
           style={{ width: "50%", margin: "auto" }}
         >
-          Discount available only for next 10 days.
+          Order Now! Discounts are available only for next 10 days.
         </div>
       ) : null}
 
@@ -124,7 +124,7 @@ const Detail = ({ clickedProduct, shoes }) => {
             }}
             eventKey="link0"
           >
-            Button0
+            Size
           </Nav.Link>
         </Nav.Item>
         <Nav.Item>
@@ -134,7 +134,7 @@ const Detail = ({ clickedProduct, shoes }) => {
             }}
             eventKey="link1"
           >
-            Button1
+            Shipping
           </Nav.Link>
         </Nav.Item>
         <Nav.Item>
@@ -144,7 +144,7 @@ const Detail = ({ clickedProduct, shoes }) => {
             }}
             eventKey="link2"
           >
-            Button2
+            Return
           </Nav.Link>
         </Nav.Item>
       </Nav>
@@ -154,22 +154,17 @@ const Detail = ({ clickedProduct, shoes }) => {
 };
 
 function TabContent({ tab }) {
-  // if (tab === 0) {
-  //   return <div>content 0 story</div>;
-  // } else if (tab === 1) {
-  //   return <div>content 1 story</div>;
-  // } else if (tab === 2) {
-  //   return <div>content 2 story</div>;
-  // }
   let { inventory } = useContext(Context1);
 
   return (
     <div className="aniStart aniEnd">
       {
         [
-          <div>content 1 story</div>,
-          <div>content 1 story</div>,
-          <div>content 2 story</div>,
+          <div>All size available</div>,
+          <div>
+            All items will be prepared and shipped in 2 days from order date.
+          </div>,
+          <div>Regardless reason, any return is acceptable.</div>,
         ][tab]
       }
     </div>

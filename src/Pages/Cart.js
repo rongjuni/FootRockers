@@ -1,9 +1,16 @@
 /* eslint-disable */
 
+import { memo, useState } from "react";
 import { Table } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { increaseCart, decreaseCart, deletingCart } from "../store";
 import { changeName, incrementNumber } from "../store/userSlice";
+
+// function Child() {
+let Child = memo(function () {
+  console.log("re-rendering test");
+  // return <div>CHLID COMPONENT</div>;
+});
 
 function Cart() {
   //redux
@@ -11,12 +18,22 @@ function Cart() {
     return state;
   });
   let dispatch = useDispatch();
-  // console.log(stateFromStore);
   //redux chaning state
+
+  let [countExample, setCountExample] = useState(0);
 
   return (
     <div>
-      {stateFromStore.anyName.name}
+      {/* <Child></Child> */}
+      {/* <button
+        onClick={() => {
+          setCountExample(countExample + 1);
+        }}
+      >
+        {" "}
+        PLUS
+      </button> */}
+      {/* {stateFromStore.anyName.name}
       {stateFromStore.anyName.age}
       <button
         onClick={() => {
@@ -24,16 +41,21 @@ function Cart() {
         }}
       >
         PLUS
-      </button>
+      </button> */}
+      {/* {console.log("statefromstore", stateFromStore)} */}
       <Table striped bordered hover>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Products</th>
-            <th>Qty</th>
-            <th>+/-</th>
-          </tr>
-        </thead>
+        {stateFromStore.cartInfo[0] ? (
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Products</th>
+              <th>Qty</th>
+              <th>+/-</th>
+            </tr>
+          </thead>
+        ) : (
+          <div>Your Cart is Emtpy</div>
+        )}
         <tbody>
           {stateFromStore.cartInfo.map((val, idx) => {
             return (
