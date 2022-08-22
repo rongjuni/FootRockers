@@ -27,7 +27,6 @@ function App() {
   let [loadingPage, setLoadingPage] = useState(2);
   let navigate = useNavigate();
   let dataInLocalstorage = JSON.parse(localStorage.getItem("watched"));
-  console.log("data in storage", dataInLocalstorage);
   let [liveCart, setLiveCart] = useState(false);
 
   // useEffect(() => {
@@ -49,13 +48,12 @@ function App() {
     return axios
       .get("https://codingapple1.github.io/userdata.json")
       .then((result) => {
-        console.log("useQuery requested", result.data);
+        // console.log("useQuery requested", result.data);
         return result.data;
       });
     // ,
     // { staleTime: 2000 }
   });
-  console.log("nameImport", nameImport);
 
   return (
     <div className="App">
@@ -71,13 +69,7 @@ function App() {
             >
               Home
             </Nav.Link>
-            {/* <Nav.Link
-              onClick={() => {
-                navigate("/detail");
-              }}
-            >
-              Detail
-            </Nav.Link> */}
+
             <Nav.Link
               onClick={() => {
                 navigate("/about");
@@ -85,6 +77,7 @@ function App() {
             >
               About
             </Nav.Link>
+
             <Nav.Link
               onClick={() => {
                 navigate("/cart");
@@ -92,34 +85,38 @@ function App() {
             >
               Cart
             </Nav.Link>
+
+            <Nav.Link className="ms-auto">
+              {nameImport.isLoading && "loading"}
+              {nameImport.error && "error"}
+              {nameImport.data && `Hi '${nameImport.data.name}'`}
+            </Nav.Link>
+            <div style={{ width: "100%" }}></div>
+
             <Nav.Link
-              style={{ position: "fixed", right: "5px" }}
+              style={{ width: "100%" }}
               onClick={() => {
                 setLiveCart(!liveCart);
               }}
             >
               Recently Viewed
             </Nav.Link>
-            <Nav.Link className="ms-auto">
-              {nameImport.isLoading && "loading"}
-              {nameImport.error && "error"}
-              {nameImport.data && `Hi '${nameImport.data.name}'`}
-            </Nav.Link>
           </Nav>
         </Container>
       </Navbar>
-      {console.log(nameImport)}
+      {/* {console.log(nameImport)} */}
       {/* {console.log("data in storage II", dataInLocalstorage)} */}
 
       {liveCart == true ? (
         <Card
-          style={{
-            width: "18rem",
-            position: "fixed",
-            top: "3rem",
-            right: "5px",
-            height: "flex",
-          }}
+          className="recently-viewed-box"
+          // style={{
+          //   width: "18rem",
+          //   position: "fixed",
+          //   top: "3rem",
+          //   right: "5px",
+          //   height: "100%",
+          // }}
         >
           <div>
             {dataInLocalstorage.map((a, i) => {
