@@ -8,13 +8,11 @@ import { Navbar, Container, Nav, Card } from "react-bootstrap";
 import CompanyMembers from "./Pages/companyMembers.js";
 import CompanyLocation from "./Pages/companyLocation.js";
 import data from "./data.js";
-import Cards from "./productCard.js";
-// import Detail from "./Pages/detail.js";
-// import Cart from "./Pages/Cart";
+import Cards from "./Components/productCard.js";
 import "./App.css";
 import axios from "axios";
-import { useQuery } from "react-query";
-
+import Topnavbar from "./Components/Topnavbar";
+import Recently_Viewed from "./Components/Recently_Viewed";
 //context API //
 
 const Detail = lazy(() => import("./Pages/detail.js"));
@@ -29,14 +27,11 @@ function App() {
   let dataInLocalstorage = JSON.parse(localStorage.getItem("watched"));
   let [liveCart, setLiveCart] = useState(false);
 
-  // useEffect(() => {
   {
     localStorage.getItem("watched")
       ? null
       : localStorage.setItem("watched", JSON.stringify([]));
-    // console.log("useEffect running");
   }
-  // }, []);
 
   useEffect(() => {
     {
@@ -44,83 +39,18 @@ function App() {
     }
   }, []);
 
-  let nameImport = useQuery("name_import", () => {
-    return axios
-      .get("https://codingapple1.github.io/userdata.json")
-      .then((result) => {
-        // console.log("useQuery requested", result.data);
-        return result.data;
-      });
-    // ,
-    // { staleTime: 2000 }
-  });
-
   return (
     <div className="App">
-      <Navbar bg="dark" variant="dark">
-        <Container>
-          <Navbar.Brand href="/">FootRocker</Navbar.Brand>
-          <Nav className="me-auto">
-            <Nav.Link
-              // href="/"
-              onClick={() => {
-                navigate("/");
-              }}
-            >
-              Home
-            </Nav.Link>
-
-            <Nav.Link
-              onClick={() => {
-                navigate("/about");
-              }}
-            >
-              About
-            </Nav.Link>
-
-            <Nav.Link
-              onClick={() => {
-                navigate("/cart");
-              }}
-            >
-              Cart
-            </Nav.Link>
-
-            <Nav.Link className="ms-auto">
-              {nameImport.isLoading && "loading"}
-              {nameImport.error && "error"}
-              {nameImport.data && `Hi '${nameImport.data.name}'`}
-            </Nav.Link>
-            <div style={{ width: "100%" }}></div>
-
-            <Nav.Link
-              style={{ width: "100%" }}
-              onClick={() => {
-                setLiveCart(!liveCart);
-              }}
-            >
-              Recently Viewed
-            </Nav.Link>
-          </Nav>
-        </Container>
-      </Navbar>
-      {/* {console.log(nameImport)} */}
-      {/* {console.log("data in storage II", dataInLocalstorage)} */}
+      <Topnavbar setLiveCart={setLiveCart} liveCart={liveCart}></Topnavbar>
 
       {liveCart == true ? (
         <Card
           className="recently-viewed-box"
-          // style={{
-          //   width: "18rem",
-          //   position: "fixed",
-          //   top: "3rem",
-          //   right: "5px",
-          //   height: "100%",
-          // }}
+          style={{ overflowY: "scroll", maxHeight: "100%" }}
         >
           <div>
             {dataInLocalstorage.map((a, i) => {
-              return <LiveCart key={i} a={a} i={i} shoes={shoes} />;
+              return <Recently_Viewed key={i} a={a} i={i} shoes={shoes} />;
             })}
           </div>
         </Card>
@@ -221,28 +151,4 @@ function About() {
       <Outlet></Outlet>
     </div>
   );
-}
-
-function LiveCart({ a, i, shoes }) {
-  const liveCartShoes = shoes.find((val) => {
-    return val.id == parseInt(a);
-  });
-  // console.log("liveFound in liveCart function", liveCartShoes);
-  return liveCartShoes ? (
-    <div>
-      <Card.Body
-        style={{ cursor: "pointer" }}
-        onClick={() => {
-          console.log(liveCartShoes);
-        }}
-      >
-        <Card.Title>{liveCartShoes.title}</Card.Title>
-        <Card.Subtitle className="mb-2 text-muted">
-          {liveCartShoes.content}
-        </Card.Subtitle>
-        <Card.Text>{liveCartShoes.price}</Card.Text>
-      </Card.Body>
-      <hr />
-    </div>
-  ) : null;
 }

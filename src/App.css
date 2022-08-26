@@ -17,10 +17,11 @@
 
 .recently-viewed-box{
     position: fixed;
-    right: 0%;
+    right: calc(100% - 99%);
     height: fit-content;
     overflow-y: scroll;
 }
+
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
