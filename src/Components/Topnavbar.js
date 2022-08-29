@@ -30,14 +30,14 @@ function Topnavbar({ setLiveCart, liveCart }) {
             >
               Home
             </Nav.Link>
-            {/* 
+
             <Nav.Link
               onClick={() => {
                 navigate("/about");
               }}
             >
               About
-            </Nav.Link> */}
+            </Nav.Link>
 
             <Nav.Link
               onClick={() => {
