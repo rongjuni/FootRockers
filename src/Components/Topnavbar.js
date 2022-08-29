@@ -55,14 +55,14 @@ function Topnavbar({ setLiveCart, liveCart }) {
               {nameImport.data && `Hi '${nameImport.data.name}'`}
             </Nav.Link>
 
-            <Nav.Link
+            {/* <Nav.Link
               className="recent-view"
               onClick={() => {
                 setLiveCart(!liveCart);
               }}
             >
               Recently Viewed
-            </Nav.Link>
+            </Nav.Link> */}
           </div>
         </Nav>
       </Container>
