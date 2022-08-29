@@ -4,7 +4,7 @@
 
 import { lazy, Suspense, useState, createContext, useEffect } from "react";
 import { Routes, Route, Link, useNavigate, Outlet } from "react-router-dom";
-import { Navbar, Container, Nav, Card } from "react-bootstrap";
+import { Navbar, Container, Nav, Card, Button } from "react-bootstrap";
 import CompanyMembers from "./Pages/companyMembers.js";
 import CompanyLocation from "./Pages/companyLocation.js";
 import data from "./data.js";
@@ -41,6 +41,15 @@ function App() {
 
   return (
     <div className="App">
+      <div
+        className="recently-viewed-font"
+        onClick={() => {
+          setLiveCart(!liveCart);
+        }}
+      >
+        Recently Viewed
+      </div>
+
       <Topnavbar setLiveCart={setLiveCart} liveCart={liveCart}></Topnavbar>
 
       {liveCart == true ? (
@@ -133,21 +142,27 @@ function About() {
 
   return (
     <div>
-      <h4>company info</h4>
-      <button
+      <h4>FootRocker Info</h4>
+      <Button
+        className="button-design"
+        variant="outline-secondary"
         onClick={() => {
           navigate("/about/member");
         }}
       >
-        Member
-      </button>
-      <button
+        Members
+      </Button>
+
+      <Button
+        className="button-design"
+        variant="outline-secondary"
         onClick={() => {
           navigate("/about/location");
         }}
       >
         Location
-      </button>
+      </Button>
+
       <Outlet></Outlet>
     </div>
   );

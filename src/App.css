@@ -15,11 +15,25 @@
   pointer-events: none;
 }
 
+.recently-viewed-font{
+  position: fixed;
+  right: calc(100% - 99%);
+  height: fit-content;
+  color: antiquewhite !important;
+  cursor: pointer
+  
+}
+
 .recently-viewed-box{
     position: fixed;
     right: calc(100% - 99%);
     height: fit-content;
     overflow-y: scroll;
+}
+
+.button-design{
+  margin: 1% 0.5%;
+  
 }
 
 
