@@ -33,37 +33,61 @@ function App() {
       : localStorage.setItem("watched", JSON.stringify([]));
   }
 
-  useEffect(() => {
-    {
-      dataInLocalstorage.length > 0 ? setLiveCart(true) : null;
-    }
-  }, []);
+  // useEffect(() => {
+  //   {
+  //     dataInLocalstorage.length > 0 ? setLiveCart(true) : null;
+  //   }
+  // }, []);
 
   return (
     <div className="App">
-      <div
-        className="recently-viewed-font"
-        onClick={() => {
-          setLiveCart(!liveCart);
-        }}
-      >
-        Recently Viewed
-      </div>
-
       <Topnavbar setLiveCart={setLiveCart} liveCart={liveCart}></Topnavbar>
 
       {liveCart == true ? (
         <Card
           className="recently-viewed-box"
-          style={{ overflowY: "scroll", maxHeight: "100%" }}
+          // style={{ overflowY: "scroll", maxHeight: "100%" }}
         >
+          <div className="recentViewHideButton">
+            <span
+              className="recentViewHideButton-hide"
+              onClick={() => {
+                setLiveCart(!liveCart);
+                // localStorage.clear();
+              }}
+            >
+              👁‍🗨
+            </span>
+            <span> </span>
+            <span
+              className="recentViewHideButton-delete"
+              onClick={() => {
+                setLiveCart(!liveCart);
+                localStorage.clear();
+                alt="delete"
+              }}
+            >
+              ❌
+            </span>
+          </div>
           <div>
             {dataInLocalstorage.map((a, i) => {
               return <Recently_Viewed key={i} a={a} i={i} shoes={shoes} />;
             })}
           </div>
         </Card>
-      ) : null}
+      ) : (
+        <Card className="recently-viewed-box-unhide">
+          <div
+            className="recentViewUnhideButton"
+            onClick={() => {
+              setLiveCart(!liveCart);
+            }}
+          >
+            👁‍🗨
+          </div>
+        </Card>
+      )}
 
       <Suspense fallback={<div>Loading....</div>}>
         <Routes>

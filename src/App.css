@@ -26,15 +26,56 @@
 
 .recently-viewed-box{
     position: fixed;
-    right: calc(100% - 99%);
-    height: fit-content;
+    right: calc(100% - 99.9%);
+    /* height: fit-content; */
+    max-height: 100%;
     overflow-y: scroll;
+}
+
+.recently-viewed-box-unhide{
+  position: fixed;
+  right: calc(100% - 99.9%);
+  max-height: 100%;
 }
 
 .button-design{
   margin: 1% 0.5%;
   
 }
+
+.recentViewHideButton{
+  padding: 5px 10px 5px 10px;
+  transform: scale(1.5);
+}
+
+.recentViewHideButton-delete:hover {
+  padding: 5px 10px 5px 10px;
+  cursor: pointer;
+  transform: scale(1.0);
+  transition: 0.5s ease-out;
+}
+.recentViewHideButton-hide:hover{
+  padding: 5px 10px 5px 10px;
+  cursor: pointer;
+  transform: scale(1.0);
+  transition: 0.5s ease-out;
+}
+
+
+.recentViewUnhideButton{
+  width: 100%;
+  padding: 10px 15px 10px 15px;
+  cursor: pointer;
+}
+
+.recentViewUnhideButton:hover{
+  padding: 10px 15px 10px 15px;
+  cursor: pointer;
+  transform: scale(1.5);
+  transition: 0.5s ease-out;
+}
+
+
 
 
 @media (prefers-reduced-motion: no-preference) {

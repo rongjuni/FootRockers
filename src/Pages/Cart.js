@@ -69,7 +69,7 @@ function Cart() {
                       dispatch(increaseCart(val.id));
                     }}
                   >
-                    ✖️
+                    ➕
                   </button>
                   <button
                     onClick={() => {

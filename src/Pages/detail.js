@@ -6,6 +6,9 @@ import styled from "styled-components";
 import { useParams, useNavigate } from "react-router-dom";
 import "./detail.css";
 import { Form, Nav } from "react-bootstrap";
+import SizeChart from "../Components/sizeChart"
+import ShippingPolicy from "../Components/ShippingPolicy";
+import RefundPolicy from "../Components/RefundPolicy";
 
 //redux for 'order now' button
 
@@ -160,11 +163,11 @@ function TabContent({ tab }) {
     <div className="aniStart aniEnd">
       {
         [
-          <div>All size available</div>,
+          <div><SizeChart></SizeChart></div>,
           <div>
-            All items will be prepared and shipped in 2 days from order date.
+            <ShippingPolicy></ShippingPolicy>
           </div>,
-          <div>Regardless reason, any return is acceptable.</div>,
+          <div><RefundPolicy></RefundPolicy></div>,
         ][tab]
       }
     </div>
